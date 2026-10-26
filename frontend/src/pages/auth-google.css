@@ -1,0 +1,9 @@
+.auth-google-section{margin:18px 0 12px}
+.auth-google-divider{display:flex;align-items:center;gap:12px;margin:0 0 16px;color:#89918a;font-size:11px}
+.auth-google-divider:before,.auth-google-divider:after{content:"";height:1px;flex:1;background:#e5e8e2}
+.auth-google-divider span{white-space:nowrap}
+.google-signin-wrap{display:grid;justify-items:center;min-height:40px}
+.google-signin-button{min-height:40px;max-width:100%;overflow:hidden}
+.google-signin-button iframe{max-width:100%}
+.auth-google-note,.auth-google-error{margin:0;text-align:center;color:#7b847d;font-size:11px;line-height:1.5}
+.auth-google-error{color:#a64f41;margin-top:8px}

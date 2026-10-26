@@ -1,0 +1,46 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+frontend/dist/
+backend/target/
+*.log
+.idea/
+.vscode/
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Frontend dependencies and generated files
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Java build output
+backend/target/
+**/target/
+
+# Local IDE and operating system files
+.DS_Store
+.idea/
+*.log
+
+# Private uploads and database exports
+uploads/
+*.dump
+*.bson
+
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.jks
+
+# Local configuration
+application-local.yml

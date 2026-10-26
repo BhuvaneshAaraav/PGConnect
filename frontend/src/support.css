@@ -1,0 +1,11 @@
+.support-form { max-width: 760px; }
+.support-ticket-list { display: flex; flex-direction: column; gap: 9px; }
+.support-ticket-list > article { padding: 13px; border: 1px solid #edf0eb; border-radius: 4px; background: #fcfdfb; }
+.support-ticket-list > article > p { color: #66736a; font-size: 10px; line-height: 1.6; white-space: pre-wrap; }
+.support-ticket-list > article > small { color: #909991; font-size: 8px; }
+.support-ticket-list blockquote { margin: 9px 0 0; padding: 8px 10px; border-left: 2px solid #90a88e; background: #f5f7f3; color: #657369; font-size: 9px; white-space: pre-wrap; }
+.support-response { display: flex; flex-direction: column; gap: 8px; margin-top: 11px; }
+.support-response label { display: flex; flex-direction: column; gap: 6px; color: #4a584e; font-size: 9px; font-weight: 600; }
+.support-response textarea { width: 100%; min-height: 74px; padding: 9px; border: 1px solid #dfe4dd; border-radius: 4px; font: 400 11px 'DM Sans', sans-serif; resize: vertical; }
+.support-response .inline-actions { justify-content: flex-end; }
+.support-response select { min-height: 34px; padding: 7px 9px; border: 1px solid #dfe4dd; border-radius: 4px; background: #fff; color: #304237; font: 400 10px 'DM Sans', sans-serif; }

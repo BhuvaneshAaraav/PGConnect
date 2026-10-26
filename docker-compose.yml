@@ -1,0 +1,68 @@
+services:
+  mongo:
+    image: mongo:8.0
+    restart: unless-stopped
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - pgconnect_mongo:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/pgconnect?replicaSet=rs0
+      WEB_ORIGIN: http://localhost:3000
+      SESSION_COOKIE_SECURE: "false"
+      OBJECT_STORAGE_ENABLED: ${OBJECT_STORAGE_ENABLED:-false}
+      OBJECT_STORAGE_BUCKET: ${OBJECT_STORAGE_BUCKET:-}
+      OBJECT_STORAGE_REGION: ${OBJECT_STORAGE_REGION:-}
+      OBJECT_STORAGE_ENDPOINT: ${OBJECT_STORAGE_ENDPOINT:-}
+      OBJECT_STORAGE_PATH_STYLE: ${OBJECT_STORAGE_PATH_STYLE:-false}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      OWNER_SUBSCRIPTION_MONTHLY_RUPEES: ${OWNER_SUBSCRIPTION_MONTHLY_RUPEES:-1000}
+      OWNER_SUBSCRIPTION_GRACE_DAYS: ${OWNER_SUBSCRIPTION_GRACE_DAYS:-3}
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
+      RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-}
+      PGCONNECT_ADMIN_EMAIL: ${PGCONNECT_ADMIN_EMAIL:-}
+      PGCONNECT_ADMIN_PASSWORD: ${PGCONNECT_ADMIN_PASSWORD:-}
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:-}
+      EMAIL_RESEND_API_KEY: ${EMAIL_RESEND_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
+      EMAIL_WEB_ORIGIN: ${EMAIL_WEB_ORIGIN:-http://localhost:3000}
+    depends_on:
+      mongo-init:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:8080:8080"
+
+  mongo-init:
+    image: mongo:8.0
+    depends_on:
+      mongo:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command: >-
+      mongosh mongodb://mongo:27017/admin --quiet --eval
+      "try { rs.status().ok } catch (e) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}) }";
+      until mongosh mongodb://mongo:27017/admin --quiet --eval 'db.hello().isWritablePrimary' | grep -q true; do sleep 1; done
+    restart: "no"
+
+  web:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "127.0.0.1:3000:80"
+
+volumes:
+  pgconnect_mongo:

@@ -1,0 +1,2 @@
+.subscription-cancel-action { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.subscription-cancel-action > span { color: #818a81; font-size: 9px; }

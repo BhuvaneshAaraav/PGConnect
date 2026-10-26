@@ -1,0 +1,53 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: ${SESSION_COOKIE_SECURE:false}
+        same-site: lax
+spring:
+  application:
+    name: pgconnect-api
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/pgconnect?replicaSet=rs0}
+      auto-index-creation: true
+  jackson:
+    default-property-inclusion: non_null
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 12MB
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+pgconnect:
+  cors:
+    allowed-origin: ${WEB_ORIGIN:http://localhost:5173}
+  storage:
+    enabled: ${OBJECT_STORAGE_ENABLED:false}
+    bucket: ${OBJECT_STORAGE_BUCKET:}
+    region: ${OBJECT_STORAGE_REGION:}
+    endpoint: ${OBJECT_STORAGE_ENDPOINT:}
+    path-style: ${OBJECT_STORAGE_PATH_STYLE:false}
+  subscription:
+    monthly-amount-rupees: ${OWNER_SUBSCRIPTION_MONTHLY_RUPEES:1000}
+    grace-days: ${OWNER_SUBSCRIPTION_GRACE_DAYS:3}
+  razorpay:
+    key-id: ${RAZORPAY_KEY_ID:}
+    key-secret: ${RAZORPAY_KEY_SECRET:}
+    webhook-secret: ${RAZORPAY_WEBHOOK_SECRET:}
+  maps:
+    api-key: ${GOOGLE_MAPS_API_KEY:}
+  email:
+    api-key: ${EMAIL_RESEND_API_KEY:}
+    from: ${EMAIL_FROM:}
+    web-origin: ${EMAIL_WEB_ORIGIN:${WEB_ORIGIN:http://localhost:5173}}
+  google:
+    client-id: ${GOOGLE_OAUTH_CLIENT_ID:}

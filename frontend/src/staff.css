@@ -1,0 +1,14 @@
+.workspace-nav>button.workspace-link {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: 400 10px 'DM Sans', sans-serif;
+  text-align: left;
+  cursor: pointer;
+}
+
+.workspace-nav>button.workspace-link.active { font-weight: 700; }
+
+@media (max-width: 760px) {
+  .workspace-nav>button.workspace-link { width: auto; }
+}
